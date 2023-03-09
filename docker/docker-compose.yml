@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ../:/app
+    networks:
+      - framework-network
+
+  mysql:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_DATABASE: 'framework'
+    ports:
+      - "3306:3306"
+    networks:
+      - framework-network
+
+  php:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    volumes:
+      - ../:/app
+    networks:
+      - framework-network
+    depends_on:
+      - mysql
+      - nginx
+
+  mailcatcher:
+    image: schickling/mailcatcher:latest
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    networks:
+      - framework-network
+
+networks:
+  framework-network:
+    driver: bridge

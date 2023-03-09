@@ -1,0 +1,6 @@
+index:
+  path: /
+  controller: App\Controller\HomeController
+lol:
+  path: /lol
+  controller: App\Controller\HomeController::lol

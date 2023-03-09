@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="application" class="App\Core\Application" />
+
+        <service id="route_collection" class="App\Core\RouteCollection" />
+
+        <service id="request_context" class="App\Core\RequestContext" />
+
+        <service id="url_matcher" class="Symfony\Component\Routing\Matcher\UrlMatcher">
+            <argument id="route_collection"/>
+            <argument id="request_context"/>
+        </service>
+
+        <service id="request_handler" class="App\Core\Handler\RequestHandler">
+            <argument id="url_matcher"/>
+        </service>
+    </services>
+
+</container>
